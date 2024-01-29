@@ -1,158 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CBT Дневник</title>
-  <style>
-    /* Стили для страницы */
-    body {
-      font-family: Arial, sans-serif;
-    }
-    
-    h1 {
-      color: #333;
-    }
-    
-    .entry-container {
-      margin-bottom: 20px;
-    }
-    
-    .entry-container label {
-      display: block;
-      margin-bottom: 5px;
-    }
-    
-    .entry-container textarea {
-      width: 100%;
-      height: 100px;
-    }
-    
-    button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      cursor: pointer;
-    }
-  </style>
+    <title>Python Page</title>
 </head>
 <body>
-  <h1>CBT Дневник</h1>
-  <div id="entries-container"></div>
-  
-  <h2>Добавить запись:</h2>
-  <div class="entry-container">
-    <label for="entry-date">Дата:</label>
-    <input type="date" id="entry-date">
-  </div>
-  
-  <div class="entry-container">
-    <label for="entry-emotion">Эмоция:</label>
-    <input type="text" id="entry-emotion">
-  </div>
-  
-  <div class="entry-container">
-    <label for="entry-thoughts">Мысли:</label>
-    <textarea id="entry-thoughts"></textarea>
-  </div>
-  
-  <div class="entry-container">
-    <label for="entry-behavior">Поведение:</label>
-    <textarea id="entry-behavior"></textarea>
-  </div>
-  
-  <div class="entry-container">
-    <label for="entry-result">Результат:</label>
-    <textarea id="entry-result"></textarea>
-  </div>
-  
-  <button id="add-entry">Добавить</button>
-  
-  <script>
-let tg = window.Telegram.WebApp;
-let submit_but = document.getElementById("add-entry");
-let date_cbt = document.getElementById("entry-date");
+    <input type="text" id="input1">
+    <button onclick="sendData()">tool</button>
+    <br>
+    <input type="text" id="input2">
+    <button onclick="sendData()">how many lots</button>
+    <br>
+    <input type="text" id="input3">
+    <button onclick="sendData()">how many times</button>
+    <br>
+    <input type="text" id="input4">
+    <button onclick="sendData()">time before</button>
+    <br>
+    <input type="text" id="input5">
+    <button onclick="sendData()">SAMPLE TEXT</button>
+    <br>
 
-    submint_but.addEventListener("click",()=>{
-      
-    });
-   </script>
+    <div id="output1"></div>
+    <div id="output2"></div>
+    <div id="output3"></div>
+    <div id="output4"></div>
+    <div id="output5"></div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js">
+        function sendData() {
+            var input1 = document.getElementById('input1').value;
+            var input2 = document.getElementById('input2').value;
+            var input3 = document.getElementById('input3').value;
+            var input4 = document.getElementById('input4').value;
+            var input5 = document.getElementById('input5').value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "python_script.py", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById('output1').innerText = xhr.responseText;
+                    document.getElementById('output2').innerText = xhr.responseText;
+                    document.getElementById('output3').innerText = xhr.responseText;
+                    document.getElementById('output4').innerText = xhr.responseText;
+                    document.getElementById('output5').innerText = xhr.responseText;
+                }
+            };
+            xhr.send("input1=" + input1 + "&input2=" + input2 + "&input3=" + input3 + "&input4=" + input4 + "&input5=" + input5);
+        }
+    </script>
 </body>
-</html>   
-
-// // Массив для хранения всех записей
-// var entries = [];
-
-// // Функция для обновления списка записей на странице
-// function updateEntries() {
-//   var entriesContainer = document.getElementById("entries-container");
-//   entriesContainer.innerHTML = ""; // Очистка списка
-  
-//   // Перебираем все записи и добавляем их в список
-//   for (var i = 0; i < entries.length; i++) {
-//     var entry = entries[i];
-    
-//     var entryHtml = "<h3>" + entry.date + "</h3>" +
-//                     "<p>Эмоция: " + entry.emotion + "</p>" +
-//                     "<p>Мысли: " + entry.thoughts + "</p>" +
-//                     "<p>Поведение: " + entry.behavior + "</p>" +
-//                     "<p>Результат: " + entry.result + "</p>";
-//     entriesContainer.innerHTML += entryHtml;
-//   }
-// }
-
-// // Обработчик события при нажатии на кнопку "Добавить"
-// document.getElementById("add-entry").addEventListener("click", function() {
-//   var date = document.getElementById("entry-date").value;
-//   var emotion = document.getElementById("entry-emotion").value;
-//   var thoughts = document.getElementById("entry-thoughts").value;
-//   var behavior = document.getElementById("entry-behavior").value;
-//   var result = document.getElementById("entry-result").value;
-  
-//   var entry = {
-//     date: date,
-//     emotion: emotion,
-//     thoughts: thoughts,
-//     behavior: behavior,
-//     result: result
-//   };
-  
-//   entries.push(entry); // Добавляем запись в массив
-  
-//   // Очистка полей формы
-//   document.getElementById("entry-date").value = "";
-//   document.getElementById("entry-emotion").value = "";
-//   document.getElementById("entry-thoughts").value = "";
-//   document.getElementById("entry-behavior").value = "";
-//   document.getElementById("entry-result").value = "";
-  
-//   updateEntries(); // Обновляем список записей
-// });
-
-// // Обработчик события при изменении значения выбранной даты
-// document.getElementById("entry-date").addEventListener("change", function() {
-//   var selectedDate = document.getElementById("entry-date").value;
-
-//   var filteredEntries = entries.filter(function(entry) {
-//     return entry.date === selectedDate;
-//   });
-
-//   var filteredEntriesContainer = document.getElementById("filtered-entries-container");
-//   filteredEntriesContainer.innerHTML = ""; // Очистка списка
-
-//   // Перебираем отфильтрованные записи и добавляем их в список
-//   for (var i = 0; i < filteredEntries.length; i++) {
-//     var entry = filteredEntries[i];
-
-//     var entryHtml = "<h3>" + entry.date + "</h3>" +
-//                     "<p>Эмоция: " + entry.emotion + "</p>" +
-//                     "<p>Мысли: " + entry.thoughts + "</p>" +
-//                     "<p>Поведение: " + entry.behavior + "</p>" +
-//                     "<p>Результат: " + entry.result + "</p>";
-//     filteredEntriesContainer.innerHTML += entryHtml;
-//   }
-// });
-
-
-
-    
-
+</html>
